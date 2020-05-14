@@ -353,7 +353,12 @@ new Vue({
       if ( this.isCurrentChannel( channel ) ) return;
       this.closeAudio();
       this.toggleSidebar( false );
-      this.playChannel( channel );
+      if (_audio._context.state=='suspended') {
+        _audio._context.resume().then(() => {
+          console.log('Playback resumed successfully');
+          this.playChannel( channel );
+          });
+        } else this.playChannel( channel );
       this.getSongs( channel );
       this.channel = channel;
     },

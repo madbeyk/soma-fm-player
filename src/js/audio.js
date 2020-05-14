@@ -43,6 +43,11 @@ export default {
 
   // play audio source url
   playSource( source ) {
+    if (this._context.state=='suspended') {
+      this._context.resume().then(() => {
+        console.log('Playback resumed successfully');
+        });
+      }  
     this.stopAudio();
     this._audio.src = String( source || '' ) + '?x=' + Date.now();
     this._audio.crossOrigin = 'anonymous';
